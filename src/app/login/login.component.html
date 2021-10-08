@@ -26,10 +26,10 @@
                     </div>
                     <span class="help-block" style="color: red;" *ngIf="passwordInput.invalid && passwordInput.touched">Please enter a password</span>
                     <div class="d-flex justify-content-center mt-3 login-containner">
-                        <button type="submit" name="button" class="btn login_btn">
-                            <i class="fas fa-spinner fa-spin"></i>&nbsp;&nbsp;
-                            <span>Loading...</span>
-                            <span>Login</span>
+                        <button type="submit" [disabled]="loginForm.invalid || showLoading" name="button" class="btn login_btn">
+                            <i *ngIf="showLoading" class="fas fa-spinner fa-spin"></i>&nbsp;&nbsp;
+                            <span *ngIf="showLoading">Loading...</span>
+                            <span *ngIf="!showLoading">Login</span>
                         </button>
                     </div>
                 </form>

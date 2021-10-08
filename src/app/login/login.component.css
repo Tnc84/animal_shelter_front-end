@@ -18,7 +18,7 @@ html {
     flex-direction: column;
     padding: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0a, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 5px;
 }
@@ -29,7 +29,7 @@ html {
     width: 170px;
     top: -75px;
     border-radius: 50%;
-    background: #bc6099;
+    background: #60a3bc;
     padding: 10px;
     text-align: center;
 }
@@ -74,5 +74,5 @@ html {
 }
 
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-    background-color: #184f72!important;
+    background-color: #184f72 !important;
 }

@@ -7,9 +7,9 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  isUserLoggedIn() {
-    throw new Error('Method not implemented.');
-  }
+  // isUserLoggedIn() {
+  //   throw new Error('Method not implemented.');
+  // }
   public host = environment.apiUrl;
   private token: any;
   private loggedInUsername: any;
@@ -82,7 +82,7 @@ export class AuthenticationService {
   /**
   * isLoggedIn
   */
-  public isLoggedIn(): boolean {
+  public isUserLoggedIn(): boolean {
     this.loadToken();
     if (this.token != null && this.token !== '') {
       if (this.jwtHelper.decodeToken(this.token).sub != null || '') {

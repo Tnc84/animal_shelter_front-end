@@ -7,12 +7,9 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  // isUserLoggedIn() {
-  //   throw new Error('Method not implemented.');
-  // }
   public host = environment.apiUrl;
-  private token: any;
-  private loggedInUsername: any;
+  private token: string;
+  private loggedInUsername: string;
   private jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient) { }
@@ -20,15 +17,15 @@ export class AuthenticationService {
   /**
    * login
    */
-  public login(user: User): Observable<HttpResponse<any> | HttpErrorResponse> {
-    return this.http.post<HttpResponse<any> | HttpErrorResponse>(`${this.host}/user/login`, user, { observe: 'response' });
+  public login(user: User): Observable<HttpResponse<User>> {
+    return this.http.post<User>(`${this.host}/user/login`, user, { observe: 'response' });
   }
 
   /**
    * register
    */
-  public register(user: User): Observable<User | HttpErrorResponse> {
-    return this.http.post<User | HttpErrorResponse>(`${this.host}/user/register`, user);
+  public register(user: User): Observable<User> {
+    return this.http.post<User>(`${this.host}/user/register`, user);
   }
 
   /**

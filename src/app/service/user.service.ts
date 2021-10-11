@@ -17,57 +17,57 @@ export class UserService {
    * getUsers
   */
   public getUsers(): Observable<User[] | HttpErrorResponse> {
-    return this.http.get<User[]>(`${this.host}/users/list`);
+    return this.http.get<User[]>(`${this.host}/user/list`);
   }
 
   /**
   * addUser
  */
   public addUser(formData: FormData): Observable<User[] | HttpErrorResponse> {
-    return this.http.post<User[]>(`${this.host}/users/add`, formData);
+    return this.http.post<User[]>(`${this.host}/user/add`, formData);
   }
 
   /**
  * updateUser
 */
   public updateUser(formData: FormData): Observable<User[] | HttpErrorResponse> {
-    return this.http.post<User[]>(`${this.host}/users/update`, formData);
+    return this.http.post<User[]>(`${this.host}/user/update`, formData);
   }
 
   /**
 * resetPassword
 */
   public resetPassword(email: string): Observable<CustomHttpResponse | HttpErrorResponse> {
-    return this.http.get<CustomHttpResponse>(`${this.host}/users/resetpassword/#{email}`);
+    return this.http.get<CustomHttpResponse>(`${this.host}/user/resetpassword/#{email}`);
   }
 
   /**
 * updateProfileImage
 */
   public updateProfileImage(formData: FormData): Observable<HttpEvent<User> | HttpErrorResponse> {
-    return this.http.post<User>(`${this.host}/users/updateProfileImage`, formData, { reportProgress: true, observe: 'events' });
+    return this.http.post<User>(`${this.host}/user/updateProfileImage`, formData, { reportProgress: true, observe: 'events' });
   }
 
   /**
  * deleteUser
 */
   public deleteUser(userId: number): Observable<CustomHttpResponse | HttpErrorResponse> {
-    return this.http.delete<CustomHttpResponse>(`${this.host}/users/delete/${userId}`);
+    return this.http.delete<CustomHttpResponse>(`${this.host}/user/delete/${userId}`);
   }
 
   /**
  * addUserToLocalCache
 */
   public addUserToLocalCache(users: User[]): void {
-    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('user', JSON.stringify(users));
   }
 
   /**
  * getUsersFromLocalCache
 */
   public getUsersFromLocalCache(): User[] {
-    if (localStorage.getItem('users')) {
-      return JSON.parse(localStorage.getItem('users'));
+    if (localStorage.getItem('user')) {
+      return JSON.parse(localStorage.getItem('user'));
     }
     return null;
   }

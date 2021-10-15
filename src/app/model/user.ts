@@ -9,7 +9,7 @@ export class User {
     public joinDate: any;
     public profileImageUrl!: string;
     public active: boolean;
-    public notLocked: boolean;
+    public unlocked: boolean;
     public role: string;
     public authorities: [];
 
@@ -19,7 +19,7 @@ export class User {
         this.username= '';
         this.email= '';
         this.active= false;
-        this.notLocked= false;
+        this.unlocked= false;
         this.role= '';
         this.authorities= [];
     }

@@ -38,7 +38,7 @@ export class UserService {
 * resetPassword
 */
   public resetPassword(email: string): Observable<CustomHttpResponse | HttpErrorResponse> {
-    return this.http.get<CustomHttpResponse>(`${this.host}/user/resetpassword/#{email}`);
+    return this.http.get<CustomHttpResponse>(`${this.host}/user/resetPassword/${email}`);
   }
 
   /**
@@ -51,8 +51,8 @@ export class UserService {
   /**
  * deleteUser
 */
-  public deleteUser(userId: number): Observable<CustomHttpResponse | HttpErrorResponse> {
-    return this.http.delete<CustomHttpResponse>(`${this.host}/user/delete/${userId}`);
+  public deleteUser(username: string): Observable<CustomHttpResponse | HttpErrorResponse> {
+    return this.http.delete<CustomHttpResponse>(`${this.host}/user/delete/${username}`);
   }
 
   /**

@@ -1,6 +1,5 @@
 export class User {
-    public id!: number;
-    public userId!: string;
+    public userId: string;
     public firstName: string;
     public lastName: string;
     public username: string;
@@ -13,15 +12,19 @@ export class User {
     public role: string;
     public authorities: [];
 
-    constructor(){
-        this.firstName= '';
-        this.lastName= '';
-        this.username= '';
-        this.email= '';
-        this.active= false;
-        this.unlocked= false;
-        this.role= '';
-        this.authorities= [];
+    constructor() {
+        this.userId = '';
+        this.firstName = '';
+        this.lastName = '';
+        this.username = '';
+        this.email = '';
+        this.loginDateDisplay = null;
+        this.joinDate = null;
+        this.profileImageUrl = '';
+        this.active = false;
+        this.unlocked = false;
+        this.role = '';
+        this.authorities = [];
     }
-    
+
 }

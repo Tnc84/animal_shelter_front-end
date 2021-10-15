@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NotifierService } from 'angular-notifier';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { NotificationType } from '../enum/notification-type.enum';
+import { CustomHttpResponse } from '../model/custom-http-response';
 import { User } from '../model/user';
+import { AuthenticationService } from '../service/authentication.service';
 import { NotificationService } from '../service/notification.service';
 import { UserService } from '../service/user.service';
 
@@ -17,18 +18,20 @@ export class UserComponent implements OnInit {
   private titleSubject = new BehaviorSubject<string>('Users');
   public titleAction$ = this.titleSubject.asObservable();
   public users: User[];
+  public user: User;
   public refreshing: boolean;
   public selectedUser: User;
   private subscriptions: Subscription[] = [];
   public fileName: string;
   public profileImage: File;
-  public editUser= new User();
+  public editUser = new User();
   private currentUsername: string;
 
-  constructor(private userService: UserService, private notificationService: NotificationService) { }
+  constructor(private authenticationService: AuthenticationService, private userService: UserService, private notificationService: NotificationService) { }
 
 
   ngOnInit(): void {
+    this.user = this.authenticationService.getUserFromLocalCache();
     this.getUsers(true);
   }
 
@@ -90,14 +93,14 @@ export class UserComponent implements OnInit {
     );
   }
 
-  public onUpdateUser(): void{
+  public onUpdateUser(): void {
     const formData = this.userService.createUserFormDate(this.currentUsername, this.editUser, this.profileImage);
     this.subscriptions.push(
       this.userService.updateUser(formData).subscribe(
         (response: any) => {
           this.clickButton('closeEditUserModalButton');
           this.getUsers(false);
-          this.fileName = null; 
+          this.fileName = null;
           this.profileImage = null;
           this.sendNotification(NotificationType.SUCCESS, `${response.firstName} ${response.lastName} updated successfully`);
         },
@@ -111,11 +114,11 @@ export class UserComponent implements OnInit {
 
   public serchUsers(searchTerm: string): void {
     const results: User[] = [];
-    for(const user of this.userService.getUsersFromLocalCache()){
+    for (const user of this.userService.getUsersFromLocalCache()) {
       if (user.firstName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-      || user.lastName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-      || user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-      || user.userId.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1){
+        || user.lastName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+        || user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+        || user.userId.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
         results.push(user);
       }
     }
@@ -125,7 +128,39 @@ export class UserComponent implements OnInit {
     }
   }
 
-  public onEditUser(editUser: User):void{
+  public onResetPassword(emailForm: NgForm): void{
+    this.refreshing = true;
+    const emailAddress = emailForm.value['reset-password-email'];
+    this.subscriptions.push(
+      this.userService.resetPassword(emailAddress).subscribe(
+        (response: CustomHttpResponse) =>{
+          this.sendNotification(NotificationType.SUCCESS, response.message);
+          this.refreshing = false;
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.sendNotification(NotificationType.WARNING, errorResponse.error.message);
+          this.refreshing = false;
+        },
+        ()=> emailForm.reset()
+      )
+    )
+  }
+
+  public onDeleteUser(username: string): void {
+    this.subscriptions.push(
+      this.userService.deleteUser(username).subscribe(
+        (response: CustomHttpResponse) => {
+          this.sendNotification(NotificationType.SUCCESS, response.message);
+          this.getUsers(true)
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+        }
+      )
+    );
+  }
+
+  public onEditUser(editUser: User): void {
     this.editUser = editUser;
     this.currentUsername = editUser.username;
     this.clickButton("openUserEdit");
